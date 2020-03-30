@@ -1,69 +1,162 @@
 <?php
 
-namespace;
-
 class ImagenGaleria
 {
-    
-        
-	private String $nombre;
-	private String $descripcion;
-    private int $numVisualizaciones;
-    private int $numLikes;
-	private int $numDounliads;
+    const RUTA_IMAGENES_PORTFOLIO = 'images/index/portfolio/';
+    const RUTA_IMAGENES_GALLERY = 'images/index/gallery/';
 
-	
+    /**
+    * @var string
+    */
+    private $nombre;
+    /**
+    * @var string
+    */
+    private $descripcion;
+    /**
+    * @var int
+    */
+    private $numVisualizaciones;
+    /**
+    * @var int
+    */
+    private $numLikes;
+    /**
+    * @var int
+    */
+    private $numDounliads;
 
-	public function __construct(String $nombre, String $descripcion, int $numVisualizaciones, int $numLikes, int $numDounliads)
-	{
-		$this->nombre = $nombre;
-		$this->descripcion = $descripcion;
-		$this->numVisualizaciones = $numVisualizaciones;
-		$this->numLikes = $numLikes;
-		$this->numDounliads = $numDounliads;
 
-	}
+    /**
+     * Class Constructor
+     * @param string   $nombre   
+     * @param string   $descripcion   
+     * @param int   $numVisualizaciones   
+     * @param int   $numLikes   
+     * @param int   $numDounliads   
+     */
+    public function __construct($nombre, $descripcion, $numVisualizaciones=0, $numLikes=0, $numDounliads=0)
+    {
+        $this->nombre = $nombre;
+        $this->descripcion = $descripcion;
+        $this->numVisualizaciones = $numVisualizaciones;
+        $this->numLikes = $numLikes;
+        $this->numDounliads = $numDounliads;
+    }
 
+    public function __toString()
+    {
+        return $this->getDescripcion();
+    }
 
-	public String getNombre() {
-		return this.$nombre;
-	}
+    /**
+     * @return string
+     */
+    public function getNombre()
+    {
+        return $this->nombre;
+    }
 
-	public void set$Nombre(String $nombre) {
-		this.$nombre = $nombre;
-	}
+    /**
+     * @param string $nombre
+     *
+     * @return self
+     */
+    public function setNombre($nombre)
+    {
+        $this->nombre = $nombre;
 
-	public String get$Descripcion() {
-		return this.$descripcion;
-	}
+        return $this;
+    }
 
-	public void set$Descripcion(String $descripcion) {
-		this.$descripcion = $descripcion;
-	}
+    /**
+     * @return string
+     */
+    public function getDescripcion()
+    {
+        return $this->descripcion;
+    }
 
-	public int get$NumVisualizaciones() {
-		return this.$numVisualizaciones;
-	}
+    /**
+     * @param string $descripcion
+     *
+     * @return self
+     */
+    public function setDescripcion($descripcion)
+    {
+        $this->descripcion = $descripcion;
 
-	public void set$NumVisualizaciones(int $numVisualizaciones) {
-		this.$numVisualizaciones = $numVisualizaciones;
-	}
+        return $this;
+    }
 
-	public int get$NumLikes() {
-		return this.$numLikes;
-	}
+    /**
+     * @return int
+     */
+    public function getNumVisualizaciones()
+    {
+        return $this->numVisualizaciones;
+    }
 
-	public void set$NumLikes(int $numLikes) {
-		this.$numLikes = $numLikes;
-	}
+    /**
+     * @param int $numVisualizaciones
+     *
+     * @return self
+     */
+    public function setNumVisualizaciones($numVisualizaciones)
+    {
+        $this->numVisualizaciones = $numVisualizaciones;
 
-	public int get$NumDounliads() {
-		return this.$numDounliads;
-	}
+        return $this;
+    }
 
-	public void set$NumDounliads(int $numDounliads) {
-		this.$numDounliads = $numDounliads;
-	}
+    /**
+     * @return int
+     */
+    public function getNumLikes()
+    {
+        return $this->numLikes;
+    }
 
-	
+    /**
+     * @param int $numLikes
+     *
+     * @return self
+     */
+    public function setNumLikes($numLikes)
+    {
+        $this->numLikes = $numLikes;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getNumDounliads()
+    {
+        return $this->numDounliads;
+    }
+
+    /**
+     * @param int $numDounliads
+     *
+     * @return self
+     */
+    public function setNumDounliads($numDounliads)
+    {
+        $this->numDounliads = $numDounliads;
+
+        return $this;
+    }
+    public function getUrlPortfolio()
+    {
+        return_self::RUTA_IMAGENES_PORTFOLIO.$this->getNombre();
+    }
+    public function getUrlGallery()
+    {
+        return_self::RUTA_IMAGENES_GALLERY.$this->getNombre();
+    }
+
 }
+
+?>
