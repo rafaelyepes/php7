@@ -150,11 +150,11 @@ class ImagenGaleria
     }
     public function getUrlPortfolio()
     {
-        return_self::RUTA_IMAGENES_PORTFOLIO.$this->getNombre();
+        return self::RUTA_IMAGENES_PORTFOLIO.$this->getNombre();
     }
     public function getUrlGallery()
     {
-        return_self::RUTA_IMAGENES_GALLERY.$this->getNombre();
+        return self::RUTA_IMAGENES_GALLERY.$this->getNombre();
     }
 
 }

@@ -33,7 +33,7 @@ class File
             }
         }  
         if (in_array($this->file['type'], $arrTypes) === false)  
-            throw new FileException('Tipo de fichero no soportado');
+            throw new FileException('| de fichero no soportado');
     }
 
     /**
