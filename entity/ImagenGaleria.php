@@ -1,10 +1,16 @@
 <?php
 
-class ImagenGaleria
+require_once __DIR__.'/../database/IEntity.php';
+
+class ImagenGaleria implements IEntity
 {
     const RUTA_IMAGENES_PORTFOLIO = 'images/index/portfolio/';
     const RUTA_IMAGENES_GALLERY = 'images/index/gallery/';
 
+     /**
+    * @var int
+    */
+    private $id;
     /**
     * @var string
     */
@@ -24,7 +30,12 @@ class ImagenGaleria
     /**
     * @var int
     */
-    private $numDounliads;
+    private $numDownloads;
+
+    /**
+    * @var int
+    */
+    private $categoria;
 
 
     /**
@@ -33,20 +44,31 @@ class ImagenGaleria
      * @param string   $descripcion   
      * @param int   $numVisualizaciones   
      * @param int   $numLikes   
-     * @param int   $numDounliads   
+     * @param int   $numDownloads   
+     * @param int   $categoria   
      */
-    public function __construct($nombre, $descripcion, $numVisualizaciones=0, $numLikes=0, $numDounliads=0)
+    public function __construct($nombre="", $descripcion="", $categoria=0, $numVisualizaciones=0, $numLikes=0, $numDownloads=0)
     {
+        $this->id = null;
         $this->nombre = $nombre;
         $this->descripcion = $descripcion;
         $this->numVisualizaciones = $numVisualizaciones;
         $this->numLikes = $numLikes;
-        $this->numDounliads = $numDounliads;
+        $this->numDownloads = $numDownloads;
+        $this->categoria = $categoria;
     }
 
     public function __toString()
     {
         return $this->getDescripcion();
+    }
+
+     /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
     }
 
     /**
@@ -132,19 +154,39 @@ class ImagenGaleria
     /**
      * @return int
      */
-    public function getNumDounliads()
+    public function getNumDownloads()
     {
-        return $this->numDounliads;
+        return $this->numDownloads;
     }
 
     /**
-     * @param int $numDounliads
+     * @param int $numDownloads
      *
      * @return self
      */
-    public function setNumDounliads($numDounliads)
+    public function setNumDownloads($numDownloads)
     {
-        $this->numDounliads = $numDounliads;
+        $this->numDownloads = $numDownloads;
+
+        return $this;
+    }
+
+      /**
+     * @return int
+     */
+    public function getCategoria()
+    {
+        return $this->categoria;
+    }
+
+    /**
+     * @param int $categoria
+     *
+     * @return self
+     */
+    public function setCategoria($categoria)
+    {
+        $this->categoria = $categoria;
 
         return $this;
     }
@@ -157,6 +199,18 @@ class ImagenGaleria
         return self::RUTA_IMAGENES_GALLERY.$this->getNombre();
     }
 
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->getId(),
+            'nombre' => $this->getNombre(),
+            'descripcion' => $this->getDescripcion(),
+            'numVisualizaciones' => $this->getNumVisualizaciones(),
+            'numLikes' => $this->getNumLikes(),
+            'numDownloads' => $this->getNumDownloads(),
+            'categoria' => $this->getCategoria()
+        ];
+    }
 }
 
 ?>

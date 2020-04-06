@@ -3,6 +3,17 @@
     require 'entity/ImagenGaleria.php';
     require 'entity/Asociado.php';
     require 'utils/utils.php';
+    require_once 'database/Connection.php';
+    require_once 'database/Querybuilder.php';
+    require_once 'entity/ImagenGaleria.php';
+    require_once 'repository/ImagenGaleriaRepository.php';
+    require_once 'core/App.php';
+
+    $config = require_once 'app/config.php';
+    App::bind('config', $config);
+    $imgRepository = new ImagenGaleriaRepository();
+    $imagenes = $imgRepository->findAll();
+   
 
     $imagenGaleria = new ImagenGaleria('imagen1','Descripcion de La imagen');
 

@@ -5,9 +5,6 @@
 	require_once 'exceptions/AppException.php';
 	require_once 'utils/File.php';
 	require_once 'entity/ImagenGaleria.php';
-	require_once 'entity/Categoria.php';
-	require_once 'repository/ImagenGaleriaRepository.php';
-	require_once 'repository/CategoriaRepository.php';
 	require_once 'database/Connection.php';
 	require_once 'database/Querybuilder.php';
 	require_once 'core/App.php';
@@ -23,38 +20,47 @@ try {
 	
 	$config = require_once 'app/config.php';
 	App::bind('config', $config);
+	$connection = App::getConnnection();
 
-	$imgRepository = new ImagenGaleriaRepository();
-	$categoriaRepository = new CategoriaRepository();
-
-//	$queryBuilder = new QueryBuilder('imagenes','ImagenGaleria');
     if($_SERVER['REQUEST_METHOD'] === 'POST')
     {
 			$descripcion = trim(htmlspecialchars($_POST['descripcion']));
-			$categoria = trim(htmlspecialchars($_POST['categoria']));
-
-			if (empty($categoria))
-				throw new ValidationException("No se ha Recibido La Categoria");
 
 			$tiposAceptados=['image/jpeg','image/png','image/gif'];	
 			$imagen = new File('imagen', $tiposAceptados);
 			$imagen->saveUploadFile(ImagenGaleria::RUTA_IMAGENES_GALLERY);
 			$imagen->copyFile(ImagenGaleria::RUTA_IMAGENES_GALLERY, ImagenGaleria::RUTA_IMAGENES_PORTFOLIO);
 
-			$imagenGaleria = new ImagenGaleria($imagen->getFileName(), $descripcion, $categoria);
+			//consultas preparadas: ayuda a evitar ataques sql inyector, sentencia reu
 
-			$imgRepository->save($imagenGaleria);
-			//$imgRepository->guarda($imagenGaleria);
+			
+/*			$sql = "INSERT INTO imagenes (nombre, descripcion) values (?, ?)";
+			pdoStatement->bindParam(1,'Valor');
+			pdoStatement->bindParam(2,'descripcion');
+			if ($connection->execute($parameters) === false)
+*/
+			$sql = "INSERT INTO imagenes (nombre, descripcion) values (:nombre, :descripcion)";
 
+		
+			$pdoStatement = $connection->prepare($sql);  
+			$parameters = [':nombre'=>$imagen->getFileName(),'descripcion'=>$descripcion];
 
-			$descripcion=''; 	
-	   		$mensaje = 'Se ha guardado la imagen';
+/*
+			$sql = "INSERT INTO imagenes (nombre, descripcion) values ('".$imagen->getFileName()."', '$descripcion')";
+			$sql = $connection->quote($sql);
+*/			
 
-	}
+			if ($pdoStatement->execute($parameters) === false)
+				$errores = "No se ha podido guardar la imagen en la base de datos";
+			else
+			{
+				$descripcion=''; 	
+	    		$mensaje = 'Se ha guardado la imagen';
+			}	
+    }
 
-    
-    $imagenes = $imgRepository->findAll();
-    $categorias = $categoriaRepository->findAll();
+    $queryBuilder = new QueryBuilder('imagenes','ImagenGaleria');
+    $imagenes = $queryBuilder->findAll();
 } 
 catch (FileException $fileException) {
 			$errores=$fileException->getMessage();
@@ -64,9 +70,6 @@ catch (QueryException $queryException) {
 }
 catch (AppException $appException) {
 			$errores=$appException->getMessage();
-}
-catch (ValidationException $validationException) {
-			$errores=$validationException->getMessage();
 }
     require 'views/galeria.view.php';
 ?>
