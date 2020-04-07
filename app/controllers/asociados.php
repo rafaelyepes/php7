@@ -38,7 +38,7 @@ try {
 			$errores=$ValidationException->getMessage();
 	}
     
-    require 'views/asociados.view.php';
+    require_once __DIR__.'/../../views/asociados.view.php';
 
 
 

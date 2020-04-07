@@ -18,8 +18,7 @@
 
 try {
 	
-	$config = require_once 'app/config.php';
-	App::bind('config', $config);
+	
 	$connection = App::getConnnection();
 
     if($_SERVER['REQUEST_METHOD'] === 'POST')
@@ -71,5 +70,5 @@ catch (QueryException $queryException) {
 catch (AppException $appException) {
 			$errores=$appException->getMessage();
 }
-    require 'views/galeria.view.php';
+    require __DIR__.'/../views/galeria.view.php';
 ?>

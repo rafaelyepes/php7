@@ -21,9 +21,6 @@
 
 try {
 	
-	$config = require_once 'app/config.php';
-	App::bind('config', $config);
-
 	$imgRepository = new ImagenGaleriaRepository();
 	$categoriaRepository = new CategoriaRepository();
 
@@ -68,5 +65,5 @@ catch (AppException $appException) {
 catch (ValidationException $validationException) {
 			$errores=$validationException->getMessage();
 }
-    require 'views/galeria.view.php';
+    require_once __DIR__.'/../../views/galeria.view.php';
 ?>
